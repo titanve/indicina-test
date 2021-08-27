@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import LoginGithub from "react-login-github";
+
+const onSuccess = (response: string) => {console.log(response)};
+const onFailure = (response: string) => console.error(response);
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <main className="App-main">
+        <LoginGithub
+          clientId="4f262cc9e20d3043da02"
+          className="App-login-button"
+          buttonText="Login to Github"
+          onSuccess={onSuccess}
+          onFailure={onFailure}
+        />
+      </main>
     </div>
   );
 }
 
-export {App};
+export { App };

@@ -13,6 +13,28 @@
   }
 }
 
+.App-main {
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-login-button {
+  cursor: pointer;
+  color: #fff;
+  font-size: calc(1px + 2vmin);
+  font-weight: bold;
+  border-width: 0;
+  background-color: #5c5c5c;
+  padding: calc(4px + 1vmin) calc(8px + 2vmin);
+  border-radius: 5px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
