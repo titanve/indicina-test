@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import LoginGithub from "react-login-github";
+import { useAtom } from "jotai";
+import { accessTokenAtom } from "./jotai_state/main_state";
 
 const API_Auth_Backend: string =
   "https://9uj0ihoex6.execute-api.eu-west-1.amazonaws.com/dev/auth";
@@ -11,7 +13,7 @@ interface AuthResponse {
 
 function App() {
   const [code, setCode] = React.useState("");
-  const [access_token, setAccess_token] = React.useState("");
+  const [access_token, setAccess_token] = useAtom(accessTokenAtom);
 
   const onSuccess = (response: AuthResponse) => {
     setCode(response?.code);
@@ -33,6 +35,12 @@ function App() {
       fetchAccessToken();
     }
   }, [code]);
+
+  React.useEffect(() => {
+    if (access_token != null && access_token.length > 0) {
+      // TODO: go to the search page
+    }
+  }, [access_token]);
 
   const onFailure = (response: string) => console.error(response);
 
