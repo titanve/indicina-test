@@ -1,6 +1,12 @@
 import React from "react";
+import { usePopper } from "react-popper";
+import { useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faSearch,
+  faChevronUp,
+  faChevronDown,
+} from "@fortawesome/free-solid-svg-icons";
 import ghlogo from "./img/ghlogo.png";
 import ghmark from "./img/ghmark.png";
 import "../App.css";
@@ -9,13 +15,39 @@ import {
   accessTokenAtom,
   searchAtom,
   currentUserAtom,
+  showMenuAtom,
 } from "../jotai_state/main_state";
 import { GH_GraphQL } from "./utils/constants";
 
 function Search() {
-  const [access_token] = useAtom(accessTokenAtom);
+  let history = useHistory();
+  const [referenceElement, setReferenceElement] =
+    React.useState<HTMLDivElement | null>(null);
+  const [popperElement, setPopperElement] =
+    React.useState<HTMLDivElement | null>(null);
+  const [arrowElement, setArrowElement] = React.useState<HTMLDivElement | null>(
+    null
+  );
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [
+      {
+        name: "arrow",
+        options: {
+          element: arrowElement,
+        },
+      },
+      {
+        name: "offset",
+        options: {
+          offset: [-90, 25], // x, y
+        },
+      },
+    ],
+  });
+  const [access_token, setAccess_token] = useAtom(accessTokenAtom);
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
+  const [showMenu, setShowMenu] = useAtom(showMenuAtom);
 
   React.useEffect(() => {
     const fetchGH = async () => {
@@ -32,9 +64,6 @@ function Search() {
             avatarUrl
           }}`,
         }),
-        // body: JSON.stringify({
-        //   query: `query { viewer { login, name, avatarUrl }}`,
-        // }),
       });
       const data = await response.json();
       console.log("data", data);
@@ -51,9 +80,19 @@ function Search() {
     setSearch(event.target.value);
   };
 
+  const handleShowMenu = () => {
+    setShowMenu(!showMenu);
+  };
+
+  const handleLogout = () => {
+    setAccess_token("");
+    setShowMenu(false);
+    history.push("/");
+  };
+
   return (
     <div className="App">
-      <main className="App-main">
+      <main className="App-Search-main">
         <div className="App-User-arrange">
           <img
             src={currentUser.avatarUrl}
@@ -61,6 +100,31 @@ function Search() {
             alt="logo"
           />
           <p className="App-User-name">{currentUser.name}</p>
+          <div
+            className="App-Search-Chevron"
+            onClick={handleShowMenu}
+            ref={setReferenceElement}
+          >
+            <FontAwesomeIcon
+              icon={showMenu ? faChevronDown : faChevronUp}
+              size="xs"
+            />
+          </div>
+          {showMenu ? (
+            <div
+              className="App-User-popper"
+              ref={setPopperElement}
+              style={styles.popper}
+              {...attributes.popper}
+            >
+              <p className="App-User-logout" onClick={handleLogout}>Logout</p>
+              <div
+                className="App-User-popper-arrow"
+                ref={setArrowElement}
+                style={styles.arrow}
+              />
+            </div>
+          ) : null}
         </div>
         <div className="App-Search-logos">
           <img src={ghmark} className="App-logo-mark" alt="logo" />

@@ -26,6 +26,16 @@
   color: white;
 }
 
+.App-Search-main {
+  background-color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
 .App-login-button {
   cursor: pointer;
   color: #fff;
@@ -64,6 +74,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-top: 10.25rem;
 }
 
 .App-Search-Input-arrange {
@@ -79,7 +90,6 @@
   font-size: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.4);
 }
-
 
 .App-Search-Input-icon-arrange {
   position: absolute;
@@ -102,15 +112,65 @@
 .App-User-arrange {
   display: flex;
   flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100vw;
+  margin-right: 40px;
+  margin-top: 1rem;
 }
 
 .App-User-avatar {
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
   pointer-events: none;
 }
 
 .App-User-name {
+  font-size: 1rem;
   margin-left: 10px;
-  color: #1D1D1D;
+  color: #1d1d1d;
+}
+
+.App-Search-Chevron {
+  margin-left: 10px;
+  color: #020202;
+  cursor: pointer;
+}
+
+.App-User-popper {
+  color: red;
+  background: white;
+  font-size: 1rem;
+  padding-left: 2.375rem;
+  border-radius: 4px;
+  border: 1px solid #edeff3;
+  box-sizing: border-box;
+  width: 12.5rem;
+  height: 3.75rem;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.App-User-popper-arrow {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+}
+
+.App-User-popper-arrow::after {
+  content: "";
+  position: absolute;
+  top: -28px;
+  left: 0;
+  transform: rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.1);
+}
+
+.App-User-logout {
+  cursor: pointer;
 }
