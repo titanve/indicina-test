@@ -1,6 +1,7 @@
 import React from "react";
 import { usePopper } from "react-popper";
 import { useHistory } from "react-router-dom";
+import debounce from "lodash.debounce";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faSearch,
@@ -49,34 +50,42 @@ function Search() {
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
 
-  React.useEffect(() => {
-    const fetchGH = async () => {
-      const response = await fetch(GH_GraphQL, {
-        headers: {
-          Authorization: `Bearer ${access_token}`,
-          "content-type": "application/json",
-        },
-        method: "POST",
-        body: JSON.stringify({
-          query: `query { 
-          user(login: "${search}") {
-            bio,
-            avatarUrl
-          }}`,
-        }),
-      });
-      const data = await response.json();
-      console.log("data", data);
-    };
+  const searchOnGh = () => {
     if (search != null && search.length > 0) {
-      fetchGH();
+      fetchGHUser(search);
     } else {
       setSearch("");
     }
-  }, [search]);
+  };
+
+  const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
+
+  const fetchGHUser = async (query: string) => {
+    const response = await fetch(GH_GraphQL, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify({
+        query: `query { 
+        user(login: "${query}") {
+          bio,
+          avatarUrl
+        }}`,
+      }),
+    });
+    const data = await response.json();
+  };
+
+  React.useEffect(() => {
+    delayedQuery();
+
+    // Cancel the debounce on useEffect cleanup.
+    return delayedQuery.cancel;
+  }, [delayedQuery]);
 
   const handleSearch = (event: any) => {
-    event.preventDefault();
     setSearch(event.target.value);
   };
 
@@ -117,7 +126,9 @@ function Search() {
               style={styles.popper}
               {...attributes.popper}
             >
-              <p className="App-User-logout" onClick={handleLogout}>Logout</p>
+              <p className="App-User-logout" onClick={handleLogout}>
+                Logout
+              </p>
               <div
                 className="App-User-popper-arrow"
                 ref={setArrowElement}
@@ -145,7 +156,9 @@ function Search() {
             onChange={handleSearch}
           />
         </div>
-        <button className="App-Search-button">Search Github</button>
+        <button onClick={delayedQuery} className="App-Search-button">
+          Search Github
+        </button>
       </main>
     </div>
   );
