@@ -12,6 +12,7 @@
   width: 143px;
   height: 59px;
   pointer-events: none;
+  margin-left: 1rem;
 }
 
 .App-main {
@@ -27,6 +28,18 @@
 
 .App-login-button {
   cursor: pointer;
+  color: #fff;
+  font-size: calc(1px + 2vmin);
+  font-weight: bold;
+  border-width: 0;
+  background-color: #5c5c5c;
+  padding: calc(4px + 1vmin) calc(8px + 2vmin);
+  border-radius: 5px;
+}
+
+.App-Search-button {
+  cursor: pointer;
+  margin-top: 1.5rem;
   color: #fff;
   font-size: calc(1px + 2vmin);
   font-weight: bold;
@@ -54,12 +67,32 @@
 }
 
 .App-Search-input {
-  margin-top: 20px;
   width: 36rem;
   height: 3.125rem;
   border-radius: 1.6025rem;
-  padding: 0 1rem;
+  padding: 0 2.5rem;
   font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.App-Search-Input-arrange {
+  position: relative;
+  margin-top: 20px;
+}
+
+
+.App-Search-Input-icon-arrange {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  right: 0;
+}
+
+.App-Search-Input-icon {
+  color: black;
+  padding-right: 0.8rem;
 }
 
 .App-link {
