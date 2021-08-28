@@ -66,6 +66,11 @@
   align-items: center;
 }
 
+.App-Search-Input-arrange {
+  position: relative;
+  margin-top: 20px;
+}
+
 .App-Search-input {
   width: 36rem;
   height: 3.125rem;
@@ -73,11 +78,6 @@
   padding: 0 2.5rem;
   font-size: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.4);
-}
-
-.App-Search-Input-arrange {
-  position: relative;
-  margin-top: 20px;
 }
 
 
@@ -91,7 +91,7 @@
 }
 
 .App-Search-Input-icon {
-  color: black;
+  color: rgba(0, 0, 0, 0.6);
   padding-right: 0.8rem;
 }
 

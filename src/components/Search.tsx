@@ -17,6 +17,7 @@ function Search() {
           <div className="App-Search-Input-icon-arrange">
             <FontAwesomeIcon
               icon={faSearch}
+              size='xs'
               className="App-Search-Input-icon"
             />
           </div>
