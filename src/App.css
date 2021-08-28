@@ -98,3 +98,19 @@
 .App-link {
   color: #61dafb;
 }
+
+.App-User-arrange {
+  display: flex;
+  flex-direction: row;
+}
+
+.App-User-avatar {
+  width: 70px;
+  height: 70px;
+  pointer-events: none;
+}
+
+.App-User-name {
+  margin-left: 10px;
+  color: #1D1D1D;
+}

@@ -3,7 +3,8 @@ import "../App.css";
 import LoginGithub from "react-login-github";
 import { useHistory } from "react-router-dom";
 import { useAtom } from "jotai";
-import { accessTokenAtom } from "../jotai_state/main_state";
+import { accessTokenAtom, currentUserAtom } from "../jotai_state/main_state";
+import { GH_GraphQL } from "./utils/constants";
 
 const API_Auth_Backend: string =
   "https://9uj0ihoex6.execute-api.eu-west-1.amazonaws.com/dev/auth";
@@ -16,6 +17,7 @@ function Login() {
   let history = useHistory();
   const [code, setCode] = React.useState("");
   const [access_token, setAccess_token] = useAtom(accessTokenAtom);
+  const [, setCurrentUser] = useAtom(currentUserAtom);
 
   const onSuccess = (response: AuthResponse) => {
     console.log("response", response);
@@ -46,7 +48,26 @@ function Login() {
 
   React.useEffect(() => {
     if (access_token != null && access_token.length > 0) {
-      history.push("/search");
+      const fetchGH = async () => {
+        const response = await fetch(GH_GraphQL, {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+            "content-type": "application/json",
+          },
+          method: "POST",
+          body: JSON.stringify({
+            query: `query { viewer { login, name, avatarUrl }}`,
+          }),
+        });
+        const { data } = await response.json();
+        setCurrentUser({
+          login: data?.viewer.login,
+          avatarUrl: data?.viewer.avatarUrl,
+          name: data?.viewer.name,
+        });
+        history.push("/search");
+      };
+      fetchGH();
     }
   }, [access_token]);
 

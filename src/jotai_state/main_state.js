@@ -1,6 +1,7 @@
-import { atom } from 'jotai'
+import { atom } from "jotai";
 
-const accessTokenAtom = atom('')
-const searchAtom = atom('')
+const accessTokenAtom = atom("");
+const searchAtom = atom("");
+const currentUserAtom = atom({login: '', avatarUrl: '', name: ''});
 
-export {accessTokenAtom, searchAtom}
+export { accessTokenAtom, searchAtom, currentUserAtom };

@@ -5,13 +5,17 @@ import ghlogo from "./img/ghlogo.png";
 import ghmark from "./img/ghmark.png";
 import "../App.css";
 import { useAtom } from "jotai";
-import { accessTokenAtom, searchAtom } from "../jotai_state/main_state";
-
-const GH_GraphQL = "https://api.github.com/graphql";
+import {
+  accessTokenAtom,
+  searchAtom,
+  currentUserAtom,
+} from "../jotai_state/main_state";
+import { GH_GraphQL } from "./utils/constants";
 
 function Search() {
   const [access_token] = useAtom(accessTokenAtom);
   const [search, setSearch] = useAtom(searchAtom);
+  const [currentUser] = useAtom(currentUserAtom);
 
   React.useEffect(() => {
     const fetchGH = async () => {
@@ -28,6 +32,9 @@ function Search() {
             avatarUrl
           }}`,
         }),
+        // body: JSON.stringify({
+        //   query: `query { viewer { login, name, avatarUrl }}`,
+        // }),
       });
       const data = await response.json();
       console.log("data", data);
@@ -47,6 +54,14 @@ function Search() {
   return (
     <div className="App">
       <main className="App-main">
+        <div className="App-User-arrange">
+          <img
+            src={currentUser.avatarUrl}
+            className="App-User-avatar"
+            alt="logo"
+          />
+          <p className="App-User-name">{currentUser.name}</p>
+        </div>
         <div className="App-Search-logos">
           <img src={ghmark} className="App-logo-mark" alt="logo" />
           <img src={ghlogo} className="App-logo-img" alt="logo" />
