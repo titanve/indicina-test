@@ -4,8 +4,46 @@ import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import ghlogo from "./img/ghlogo.png";
 import ghmark from "./img/ghmark.png";
 import "../App.css";
+import { useAtom } from "jotai";
+import { accessTokenAtom, searchAtom } from "../jotai_state/main_state";
+
+const GH_GraphQL = "https://api.github.com/graphql";
 
 function Search() {
+  const [access_token] = useAtom(accessTokenAtom);
+  const [search, setSearch] = useAtom(searchAtom);
+
+  React.useEffect(() => {
+    const fetchGH = async () => {
+      const response = await fetch(GH_GraphQL, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify({
+          query: `query { 
+          user(login: "${search}") {
+            bio,
+            avatarUrl
+          }}`,
+        }),
+      });
+      const data = await response.json();
+      console.log("data", data);
+    };
+    if (search != null && search.length > 0) {
+      fetchGH();
+    } else {
+      setSearch("");
+    }
+  }, [search]);
+
+  const handleSearch = (event: any) => {
+    event.preventDefault();
+    setSearch(event.target.value);
+  };
+
   return (
     <div className="App">
       <main className="App-main">
@@ -17,11 +55,16 @@ function Search() {
           <div className="App-Search-Input-icon-arrange">
             <FontAwesomeIcon
               icon={faSearch}
-              size='xs'
+              size="xs"
               className="App-Search-Input-icon"
             />
           </div>
-          <input className="App-Search-input" type="text" />
+          <input
+            className="App-Search-input"
+            type="text"
+            value={search}
+            onChange={handleSearch}
+          />
         </div>
         <button className="App-Search-button">Search Github</button>
       </main>
