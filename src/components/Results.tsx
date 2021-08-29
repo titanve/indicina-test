@@ -164,8 +164,8 @@ function Results() {
         </nav>
         <div className="App-Results-results-arrange">
           <div className="App-Results-results-count">
-            <div>Repositories</div>
-            <div>Users</div>
+            <div className="App-Results-active-data">Repositories</div>
+            <div className="">Users</div>
           </div>
           <div className="App-Results-results-data">
             <div>2,985 repository results</div>
