@@ -17,10 +17,11 @@ import {
   searchAtom,
   currentUserAtom,
   showMenuAtom,
+  usersResultsAtom,
 } from "../jotai_state/main_state";
 import { GH_GraphQL } from "./utils/constants";
 
-function Search() {
+function Results() {
   let history = useHistory();
   const [referenceElement, setReferenceElement] =
     React.useState<HTMLDivElement | null>(null);
@@ -49,6 +50,7 @@ function Search() {
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
+  const [, setUsersResults] = useAtom(usersResultsAtom);
 
   const searchOnGh = () => {
     if (search != null && search.length > 0) {
@@ -103,66 +105,77 @@ function Search() {
 
   return (
     <div className="App">
-      <main className="App-Search-main">
-        <div className="App-User-arrange">
-          <img
-            src={currentUser.avatarUrl}
-            className="App-User-avatar"
-            alt="logo"
-          />
-          <p className="App-User-name">{currentUser.name}</p>
-          <div
-            className="App-Search-Chevron"
-            onClick={handleShowMenu}
-            ref={setReferenceElement}
-          >
-            <FontAwesomeIcon
-              icon={showMenu ? faChevronDown : faChevronUp}
-              size="xs"
-            />
+      <main className="App-Results-main">
+        <nav className="App-Results-nav">
+          <div className="App-Results-logos">
+            <img src={ghmark} className="App-logo-mark" alt="logo" />
+            <img src={ghlogo} className="App-logo-img" alt="logo" />
           </div>
-          {showMenu ? (
-            <div
-              className="App-User-popper"
-              ref={setPopperElement}
-              style={styles.popper}
-              {...attributes.popper}
-            >
-              <p className="App-User-logout" onClick={handleLogout}>
-                Logout
-              </p>
-              <div
-                className="App-User-popper-arrow"
-                ref={setArrowElement}
-                style={styles.arrow}
+          <div className="App-Results-Input-arrange">
+            <div className="App-Results-Input-icon-arrange">
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="App-Search-Input-icon"
               />
             </div>
-          ) : null}
-        </div>
-        <div className="App-Search-logos">
-          <img src={ghmark} className="App-logo-mark" alt="logo" />
-          <img src={ghlogo} className="App-logo-img" alt="logo" />
-        </div>
-        <div className="App-Search-Input-arrange">
-          <div className="App-Search-Input-icon-arrange">
-            <FontAwesomeIcon
-              icon={faSearch}
-              className="App-Search-Input-icon"
+            <input
+              className="App-Search-input"
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={handleSearch}
             />
           </div>
-          <input
-            className="App-Search-input"
-            type="text"
-            value={search}
-            onChange={handleSearch}
-          />
+          <div className="App-Results-User-arrange">
+            <img
+              src={currentUser.avatarUrl}
+              className="App-User-avatar"
+              alt="logo"
+            />
+            <p className="App-User-name">{currentUser.name}</p>
+            <div
+              className="App-Search-Chevron"
+              onClick={handleShowMenu}
+              ref={setReferenceElement}
+            >
+              <FontAwesomeIcon
+                icon={showMenu ? faChevronDown : faChevronUp}
+                size="xs"
+              />
+            </div>
+            {showMenu ? (
+              <div
+                className="App-User-popper"
+                ref={setPopperElement}
+                style={styles.popper}
+                {...attributes.popper}
+              >
+                <p className="App-User-logout" onClick={handleLogout}>
+                  Logout
+                </p>
+                <div
+                  className="App-User-popper-arrow"
+                  ref={setArrowElement}
+                  style={styles.arrow}
+                />
+              </div>
+            ) : null}
+          </div>
+        </nav>
+        <div className="App-Results-results-arrange">
+          <div className="App-Results-results-count">
+            <div>Repositories</div>
+            <div>Users</div>
+          </div>
+          <div className="App-Results-results-data">
+            <div>2,985 repository results</div>
+            <div className="App-Results-detail">Telegram</div>
+            <div className="App-Results-detail">react-next-paging</div>
+          </div>
         </div>
-        <button onClick={delayedQuery} className="App-Search-button">
-          Search Github
-        </button>
       </main>
     </div>
   );
 }
 
-export { Search };
+export { Results };

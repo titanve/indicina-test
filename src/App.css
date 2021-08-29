@@ -85,7 +85,7 @@
 .App-Search-input {
   width: 31rem;
   height: 3.125rem;
-  border-radius: 1.6025rem;
+  border-radius: 1.625rem;
   padding: 0 2.5rem;
   font-size: 1rem;
   border: 1px solid rgba(0, 0, 0, 0.4);
@@ -173,4 +173,88 @@
 
 .App-User-logout {
   cursor: pointer;
+}
+
+.App-Results-main {
+  background-color: #FAFBFC;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-Results-nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #fff;
+  margin-top: 0.8rem;
+  align-items: center;
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, .2);
+  padding-bottom: 1rem;
+  position: sticky;
+  position: -webkit-sticky;
+  top: 20px;
+}
+
+.App-Results-logos {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.App-Results-User-arrange {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.App-Search-input {
+  width: 23.75rem;
+  height: 3.125rem;
+  border-radius: 1.625rem;
+  padding: 0 2.5rem;
+  font-size: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.App-Results-Input-icon-arrange {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  right: 0;
+}
+
+.App-Results-Input-arrange {
+  position: relative;
+}
+
+.App-Results-results-arrange {
+  display: flex;
+  flex-direction: row;
+  margin-top: 1.875rem;
+}
+
+.App-Results-results-count {
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  margin-left: 14.375rem;
+  width: 17.5rem;
+}
+
+.App-Results-results-data {
+  margin-left: 1.25rem;
+}
+
+.App-Results-detail {
+  background-color: #fff;
+  margin-top: 1.25rem;
+}
+
+.App-Results-active-data {
+  background-color: #F7F7F8;
 }
