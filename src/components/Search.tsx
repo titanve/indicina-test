@@ -17,8 +17,9 @@ import {
   searchAtom,
   currentUserAtom,
   showMenuAtom,
+  usersResultsAtom,
 } from "../jotai_state/main_state";
-import { GH_GraphQL } from "./utils/constants";
+import { useFetchUsers } from "./hooks/hooksMain";
 
 function Search() {
   let history = useHistory();
@@ -45,10 +46,12 @@ function Search() {
       },
     ],
   });
-  const [access_token, setAccess_token] = useAtom(accessTokenAtom);
+  const [, setAccess_token] = useAtom(accessTokenAtom);
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
+  const [, setUserResults] = useAtom(usersResultsAtom);
+  const [{ fetchGHUser, users }] = useFetchUsers();
 
   const searchOnGh = () => {
     if (search != null && search.length > 0) {
@@ -58,27 +61,15 @@ function Search() {
     }
   };
 
-  const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
+  React.useEffect(() => {
+    console.log("users", users)
+    if (users != null && users.length > 0) {
+      setUserResults(users);
+      history.push("/results");
+    }
+  }, [users, setUserResults, history]);
 
-  const fetchGHUser = async (query: string) => {
-    const response = await fetch(GH_GraphQL, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "content-type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        query: `query { 
-        user(login: "${query}") {
-          bio,
-          avatarUrl
-        }}`,
-      }),
-    });
-    const { data } = await response.json();
-    console.log("data", data);
-    history.push("/results");
-  };
+  const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
 
   React.useEffect(() => {
     delayedQuery();

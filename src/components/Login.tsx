@@ -56,7 +56,7 @@ function Login() {
           },
           method: "POST",
           body: JSON.stringify({
-            query: `query { viewer { login, name, avatarUrl }}`,
+            query: 'query { viewer { login, name, avatarUrl }}',
           }),
         });
         const { data } = await response.json();
