@@ -176,7 +176,7 @@
 }
 
 .App-Results-main {
-  background-color: #FAFBFC;
+  background-color: #fafbfc;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -190,7 +190,7 @@
   background-color: #fff;
   padding-top: 0.8rem;
   align-items: center;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, .2);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
   padding-bottom: 1rem;
   position: sticky;
   position: -webkit-sticky;
@@ -267,7 +267,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background-color: #F7F7F8;
+  background-color: #f7f7f8;
   width: 13.75rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
@@ -286,7 +286,7 @@
 }
 
 .App-Results-data-count {
-  background-color: #DCDCDF;
+  background-color: #dcdcdf;
   height: 1.25rem;
   width: 2.625rem;
   border-radius: 0.625rem;
@@ -301,14 +301,14 @@
 }
 
 .App-RepoItem-description {
-  color: #BABBC2;
+  color: #babbc2;
   font-size: 1rem;
   text-align: start;
   margin-top: 1.25rem;
 }
 
 .App-RepoItem-details {
-  color: #BABBC2;
+  color: #babbc2;
   font-size: 0.9rem;
   text-align: start;
   margin-top: 1.5625rem;
@@ -320,21 +320,21 @@
   justify-content: flex-start;
 }
 
-.App-UserItem-name{
+.App-UserItem-name {
   font-weight: bold;
   font-size: 1rem;
   text-align: start;
 }
 
-.App-UserItem-login{
-  color: #BABBC2;
+.App-UserItem-login {
+  color: #babbc2;
   font-size: 1rem;
   text-align: start;
   margin-left: 1rem;
 }
 
-.App-UserItem-bio{
-  color: #BABBC2;
+.App-UserItem-bio {
+  color: #babbc2;
   font-size: 0.9rem;
   text-align: start;
   margin-top: 1.5625rem;
@@ -373,10 +373,14 @@
 .App-Pagination-chevron-inactive {
   width: 2.5rem;
   height: 2.5rem;
-  background-color: #F3F3F3;
-  color: #B1B7C2;
+  background-color: #f3f3f3;
+  color: #b1b7c2;
   border-radius: 10px;
   line-height: 2.5rem;
+}
+
+.App-Pagination-pages {
+  margin-left: 1.25rem;
 }
 
 .App-no-match {

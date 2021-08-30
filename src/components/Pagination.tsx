@@ -30,6 +30,14 @@ const Pagination: React.FC<{ showRepos: boolean; searchResults: string }> = (
     return repositoryCount > 10 || userCount > 10;
   };
 
+  const reposPages = () => {
+    return Math.ceil(repositoryCount / 10);
+  };
+
+  const usersPages = () => {
+    return Math.ceil(userCount / 10);
+  };
+
   const goToNextPage = () => {
     if (props.showRepos) {
       if (pageInfoRepos.hasNextPage) {
@@ -90,6 +98,11 @@ const Pagination: React.FC<{ showRepos: boolean; searchResults: string }> = (
           icon={faChevronLeft}
           size="xs"
         />
+      </div>
+      <div className="App-Pagination-pages">
+        {props.showRepos
+          ? `${pageRepos}/${reposPages()}`
+          : `${pageUsers}/${usersPages()}`}
       </div>
       <div className={currentNextClass()}>
         <FontAwesomeIcon
