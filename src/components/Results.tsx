@@ -83,10 +83,7 @@ function Results() {
   };
 
   React.useEffect(() => {
-    if (users != null && repos != null && search === "") {
-      // setUserResults(users);
-      // setReposResults(repos);
-    } else {
+    if (search !== "") {
       setSearchResults(search);
       setSearch("");
     }

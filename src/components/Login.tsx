@@ -42,7 +42,7 @@ function Login() {
     if (code != null && code.length > 0) {
       fetchAccessToken();
     }
-  }, [code]);
+  }, [code, setAccess_token]);
 
   React.useEffect(() => {
     if (access_token != null && access_token.length > 0) {

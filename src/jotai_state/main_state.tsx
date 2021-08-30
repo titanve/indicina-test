@@ -1,4 +1,3 @@
-import React from "react";
 import { atom } from "jotai";
 import type { Repo } from "../components/RepoItem";
 import type { User } from "../components/UserItem";
