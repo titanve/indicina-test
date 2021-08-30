@@ -22,12 +22,11 @@ import {
   searchResultsAtom,
   repositoryCountAtom,
   userCountAtom,
-  pageInfoReposAtom,
-  pageInfoUsersAtom,
 } from "../jotai_state/main_state";
 import { useFetchUsers, useFetchRepos } from "./hooks/hooksMain";
 import { RepoItem } from "./RepoItem";
 import { UserItem } from "./UserItem";
+import { Pagination } from "./Pagination";
 
 function Results() {
   let history = useHistory();
@@ -68,10 +67,8 @@ function Results() {
   const [usersClass, setUsersClass] = React.useState(
     "App-Results-inactive-data"
   );
-  const [repositoryCount, setRepositoryCount] = useAtom(repositoryCountAtom);
-  const [userCount, setUserCount] = useAtom(userCountAtom);
-  const [pageInfoRepos, setPageInfoRepos] = useAtom(pageInfoReposAtom);
-  const [pageInfoUsers, setPageInfoUsers] = useAtom(pageInfoUsersAtom);
+  const [repositoryCount] = useAtom(repositoryCountAtom);
+  const [userCount] = useAtom(userCountAtom);
 
   const searchOnGh = () => {
     if (searchResults != null && searchResults.length > 0) {
@@ -221,7 +218,12 @@ function Results() {
           </div>
           <div className="App-Results-results-data">
             <div className="App-Results-results-data-results">
-              {showRepos ? repositoryCount.toLocaleString() : userCount.toLocaleString()} repository results
+              {`${
+                showRepos
+                  ? repositoryCount.toLocaleString()
+                  : userCount.toLocaleString()
+              }
+              repository results`}
             </div>
             {showRepos
               ? repos.map((repo, i) => {
@@ -232,6 +234,7 @@ function Results() {
                 })}
           </div>
         </div>
+        <Pagination />
       </main>
     </div>
   );

@@ -345,3 +345,28 @@
   font-size: 1.5rem;
   font-weight: bold;
 }
+
+.App-Pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-left: 57.47rem;
+  margin-top: 4.375rem;
+  margin-bottom: 6.25rem;
+}
+
+.App-Pagination-chevron-active {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #000;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.App-Pagination-chevron-inactive {
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: #F3F3F3;
+  color: #B1B7C2;
+  border-radius: 10px;
+}
