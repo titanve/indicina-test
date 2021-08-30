@@ -96,6 +96,7 @@ function Search() {
           />
           <p className="App-User-name">{currentUser.name}</p>
           <div
+            data-testid='user-chevron'
             className="App-Search-Chevron"
             onClick={handleShowMenu}
             ref={setReferenceElement}
@@ -112,7 +113,7 @@ function Search() {
               style={styles.popper}
               {...attributes.popper}
             >
-              <p className="App-User-logout" onClick={handleLogout}>
+              <p data-testid='logout-pane' className="App-User-logout" onClick={handleLogout}>
                 Logout
               </p>
               <div
@@ -135,6 +136,7 @@ function Search() {
             />
           </div>
           <input
+            data-testid="input-search"
             className="App-Search-input"
             type="text"
             value={search}
