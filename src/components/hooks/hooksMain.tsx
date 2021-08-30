@@ -1,11 +1,19 @@
 import React from "react";
 import { useAtom } from "jotai";
-import { accessTokenAtom } from "../../jotai_state/main_state";
+import {
+  accessTokenAtom,
+  repositoryCountAtom,
+  userCountAtom,
+  pageInfoReposAtom,
+  pageInfoUsersAtom,
+} from "../../jotai_state/main_state";
 import { GH_GraphQL } from "../utils/constants";
 
 const useFetchUsers = () => {
   const [users, setUsers] = React.useState([]);
   const [access_token] = useAtom(accessTokenAtom);
+  const [, setUserCount] = useAtom(userCountAtom);
+  const [, setPageInfoUsers] = useAtom(pageInfoUsersAtom);
 
   const fetchGHUser = async (query: string) => {
     const response = await fetch(GH_GraphQL, {
@@ -37,8 +45,10 @@ const useFetchUsers = () => {
         }`,
       }),
     });
-    const data = await response.json()
+    const data = await response.json();
     setUsers(data.data.search?.edges);
+    setPageInfoUsers(data.data.search?.pageInfo);
+    setUserCount(data.data.search?.userCount);
   };
 
   return [{ fetchGHUser, users }];
@@ -47,6 +57,8 @@ const useFetchUsers = () => {
 const useFetchRepos = () => {
   const [repos, setRepos] = React.useState([]);
   const [access_token] = useAtom(accessTokenAtom);
+  const [, setRepositoryCount] = useAtom(repositoryCountAtom);
+  const [, setPageInfoRepos] = useAtom(pageInfoReposAtom);
 
   const fetchGHRepos = async (query: string) => {
     const response = await fetch(GH_GraphQL, {
@@ -91,6 +103,8 @@ const useFetchRepos = () => {
     });
     const data = await response.json();
     setRepos(data.data.search?.edges);
+    setPageInfoRepos(data.data.search?.pageInfo);
+    setRepositoryCount(data.data.search?.repositoryCount);
   };
 
   return [{ fetchGHRepos, repos }];

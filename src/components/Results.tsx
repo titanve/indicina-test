@@ -20,6 +20,10 @@ import {
   usersResultsAtom,
   reposResultsAtom,
   searchResultsAtom,
+  repositoryCountAtom,
+  userCountAtom,
+  pageInfoReposAtom,
+  pageInfoUsersAtom,
 } from "../jotai_state/main_state";
 import { useFetchUsers, useFetchRepos } from "./hooks/hooksMain";
 import { RepoItem } from "./RepoItem";
@@ -64,6 +68,10 @@ function Results() {
   const [usersClass, setUsersClass] = React.useState(
     "App-Results-inactive-data"
   );
+  const [repositoryCount, setRepositoryCount] = useAtom(repositoryCountAtom);
+  const [userCount, setUserCount] = useAtom(userCountAtom);
+  const [pageInfoRepos, setPageInfoRepos] = useAtom(pageInfoReposAtom);
+  const [pageInfoUsers, setPageInfoUsers] = useAtom(pageInfoUsersAtom);
 
   const searchOnGh = () => {
     if (searchResults != null && searchResults.length > 0) {
@@ -189,18 +197,20 @@ function Results() {
               className={reposClass}
             >
               <p>Repositories</p>
-              <p className="App-Results-data-count">Count</p>
+              <p className="App-Results-data-count">{repositoryCount}</p>
             </div>
             <div
               onClick={showRepos ? handleChangeScope : () => {}}
               className={usersClass}
             >
               <p>Users</p>
-              <p className="App-Results-data-count">Count</p>
+              <p className="App-Results-data-count">{userCount}</p>
             </div>
           </div>
           <div className="App-Results-results-data">
-            <div>2,985 repository results</div>
+            <div>
+              {showRepos ? repositoryCount : userCount} repository results
+            </div>
             {showRepos
               ? repos.map((repo, i) => {
                   return <RepoItem key={i} repo={repo} />;
