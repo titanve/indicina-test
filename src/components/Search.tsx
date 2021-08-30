@@ -52,9 +52,9 @@ function Search() {
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
   const [, setUserResults] = useAtom(usersResultsAtom);
-  const [, setReposResults] = useAtom(reposResultsAtom);
+  const [repos, setReposResults] = useAtom(reposResultsAtom);
   const [{ fetchGHUser, users }] = useFetchUsers();
-  const [{ fetchGHRepos, repos }] = useFetchRepos();
+  const [{ fetchGHRepos }] = useFetchRepos();
 
   const searchOnGh = () => {
     if (search != null && search.length > 0) {
@@ -69,8 +69,8 @@ function Search() {
     console.log("users", users);
     console.log("repos", repos);
     if (users != null && repos != null && search != null && search.length > 0) {
-      setUserResults(users);
-      setReposResults(repos);
+      // setUserResults(users);
+      // setReposResults(repos);
       history.push("/results");
     }
   }, [users, repos, setUserResults, history, setReposResults]);

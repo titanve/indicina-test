@@ -2,6 +2,7 @@ import React from "react";
 import { useAtom } from "jotai";
 import {
   accessTokenAtom,
+  reposResultsAtom,
   repositoryCountAtom,
   userCountAtom,
   pageInfoReposAtom,
@@ -20,8 +21,14 @@ const useFetchUsers = () => {
     prev: string = "",
     next: string = ""
   ) => {
-    const prevQuery = prev.length > 0 ? ` before: "${prev}",` : "";
-    const nextQuery = next.length > 0 ? ` after: "${next}",` : "";
+    const prevQuery = prev.length > 0 ? `, before:"${prev}"` : "";
+    const nextQuery = next.length > 0 ? `, after:"${next}"` : "";
+    const newOrder =
+      prev.length === 0 && next.length === 0
+        ? "first:10"
+        : prev.length > 0
+        ? "last:10"
+        : "first:10";
     const response = await fetch(GH_GraphQL, {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -30,7 +37,7 @@ const useFetchUsers = () => {
       method: "POST",
       body: JSON.stringify({
         query: `{
-          search(query: "${query} in:login", type: USER,${prevQuery}${nextQuery} first: 10) {
+          search(query:"${query} in:login", type:USER, ${newOrder}${prevQuery}${nextQuery}) {
             userCount
             pageInfo {
               hasNextPage
@@ -53,7 +60,7 @@ const useFetchUsers = () => {
       }),
     });
     const data = await response.json();
-    console.log("data Users", data.data)
+    console.log("data Users", data.data);
     setUsers(data.data.search?.edges);
     setPageInfoUsers(data.data.search?.pageInfo);
     setUserCount(data.data.search?.userCount);
@@ -63,8 +70,8 @@ const useFetchUsers = () => {
 };
 
 const useFetchRepos = () => {
-  const [repos, setRepos] = React.useState([]);
   const [access_token] = useAtom(accessTokenAtom);
+  const [, setRepos] = useAtom(reposResultsAtom);
   const [, setRepositoryCount] = useAtom(repositoryCountAtom);
   const [, setPageInfoRepos] = useAtom(pageInfoReposAtom);
 
@@ -73,8 +80,14 @@ const useFetchRepos = () => {
     prev: string = "",
     next: string = ""
   ) => {
-    const prevQuery = prev.length > 0 ? ` before: "${prev}",` : "";
-    const nextQuery = next.length > 0 ? ` after: "${next}",` : "";
+    const prevQuery = prev.length > 0 ? `, before:"${prev}"` : "";
+    const nextQuery = next.length > 0 ? `, after:"${next}"` : "";
+    const newOrder =
+      prev.length === 0 && next.length === 0
+        ? "first:10"
+        : prev.length > 0
+        ? "last:10"
+        : "first:10";
     const response = await fetch(GH_GraphQL, {
       headers: {
         Authorization: `Bearer ${access_token}`,
@@ -83,7 +96,7 @@ const useFetchRepos = () => {
       method: "POST",
       body: JSON.stringify({
         query: `{
-          search(query: "${query} in:name", type: REPOSITORY,${prevQuery}${nextQuery} first: 10) {
+          search(query:"${query} in:login", type:REPOSITORY, ${newOrder}${prevQuery}${nextQuery}) {
             repositoryCount
             pageInfo {
               hasNextPage
@@ -117,13 +130,13 @@ const useFetchRepos = () => {
       }),
     });
     const data = await response.json();
-    console.log("data Repos", data.data)
-    setRepos(data.data.search?.edges);
+    console.log("data.data.search?.edges", data.data.search?.edges);
+    setRepos([...data.data.search?.edges]);
     setPageInfoRepos(data.data.search?.pageInfo);
     setRepositoryCount(data.data.search?.repositoryCount);
   };
 
-  return [{ fetchGHRepos, repos }];
+  return [{ fetchGHRepos }];
 };
 
 export { useFetchUsers, useFetchRepos };

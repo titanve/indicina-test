@@ -46,10 +46,22 @@ const RepoItem: React.FC<{ repo: Repo }> = (props) => {
     const diff: number = now - past;
     const hours: number = diff / (1000 * 60 * 60);
     return hours < 24
-      ? `${(hours).toFixed(0)} hours`
-      : hours < (24 * 30)
+      ? `${hours.toFixed(0)} hours`
+      : hours < 24 * 30
       ? `${(hours / 24).toFixed(0)} days`
       : `${(hours / (24 * 30)).toFixed(0)} months`;
+  };
+
+  const starsCount = (): number => {
+    return props.repo.node.stargazers.totalCount;
+  };
+
+  const starsCountString = (): string => {
+    return starsCount().toString(10).length > 3
+      ? `${starsCount()
+          .toString(10)
+          .slice(0, starsCount().toString(10).length - 3)}k`
+      : starsCount().toString(10);
   };
 
   return (
@@ -61,7 +73,7 @@ const RepoItem: React.FC<{ repo: Repo }> = (props) => {
         {props.repo.node.description}
       </div>
       <div className="App-RepoItem-details">
-        {`${props.repo.node.stargazers.totalCount} Stars | 
+        {`${starsCountString()} Stars | 
         ${props.repo.node.primaryLanguage?.name} | 
         ${repoLicense()} | 
         Updated ${getDiffTime()} ago`}
@@ -71,3 +83,4 @@ const RepoItem: React.FC<{ repo: Repo }> = (props) => {
 };
 
 export { RepoItem };
+export type { Repo };

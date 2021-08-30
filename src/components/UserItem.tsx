@@ -25,3 +25,4 @@ const UserItem: React.FC<{ user: User }> = (props) => {
 };
 
 export { UserItem };
+export type { User };

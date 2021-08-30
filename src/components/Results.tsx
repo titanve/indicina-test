@@ -27,6 +27,8 @@ import { useFetchUsers, useFetchRepos } from "./hooks/hooksMain";
 import { RepoItem } from "./RepoItem";
 import { UserItem } from "./UserItem";
 import { Pagination } from "./Pagination";
+import type { Repo } from "./RepoItem";
+import type { User } from "./UserItem";
 
 function Results() {
   let history = useHistory();
@@ -58,10 +60,10 @@ function Results() {
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
   const [, setUserResults] = useAtom(usersResultsAtom);
-  const [, setReposResults] = useAtom(reposResultsAtom);
+  const [repos] = useAtom(reposResultsAtom);
   const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
   const [{ fetchGHUser, users }] = useFetchUsers();
-  const [{ fetchGHRepos, repos }] = useFetchRepos();
+  const [{ fetchGHRepos }] = useFetchRepos();
   const [showRepos, setShowRepos] = React.useState(true);
   const [reposClass, setReposClass] = React.useState("App-Results-active-data");
   const [usersClass, setUsersClass] = React.useState(
@@ -69,6 +71,7 @@ function Results() {
   );
   const [repositoryCount] = useAtom(repositoryCountAtom);
   const [userCount] = useAtom(userCountAtom);
+  const [items, setItems] = React.useState<JSX.Element[]>([]);
 
   const searchOnGh = () => {
     if (searchResults != null && searchResults.length > 0) {
@@ -80,17 +83,16 @@ function Results() {
   };
 
   React.useEffect(() => {
-    console.log("users", users);
-    console.log("repos", repos);
+    console.log("users useEffect", users);
+    console.log("repos useEffect", repos);
     if (users != null && repos != null && search === "") {
-      setUserResults(users);
-      setReposResults(repos);
-      history.push("/results");
+      // setUserResults(users);
+      // setReposResults(repos);
     } else {
       setSearchResults(search);
       setSearch("");
     }
-  }, [users, repos, setUserResults, history]);
+  }, []);
 
   const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [
     searchResults,
@@ -127,6 +129,22 @@ function Results() {
     }
     setShowRepos(!showRepos);
   };
+
+  React.useEffect(() => {
+    const newItems: JSX.Element[] = repos.map((repo: Repo) => (
+      <RepoItem key={repo.cursor} repo={repo} />
+    ));
+    setItems([...newItems]);
+    console.log("Ini repos", repos);
+  }, [repos]);
+
+  React.useEffect(() => {
+    const newItems: JSX.Element[] = users.map((user: User) => (
+      <UserItem key={user.cursor} user={user} />
+    ));
+    setItems(newItems);
+    console.log("Ini users", users);
+  }, [users]);
 
   return (
     <div className="App">
@@ -225,13 +243,7 @@ function Results() {
               }
               repository results`}
             </div>
-            {showRepos
-              ? repos.map((repo, i) => {
-                  return <RepoItem key={i} repo={repo} />;
-                })
-              : users.map((user, j) => {
-                  return <UserItem key={j} user={user} />;
-                })}
+            <div>{items}</div>
           </div>
         </div>
         <Pagination showRepos={showRepos} searchResults={searchResults} />
