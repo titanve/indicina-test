@@ -313,3 +313,29 @@
   text-align: start;
   margin-top: 1.5625rem;
 }
+
+.App-UserItem-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.App-UserItem-name{
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: start;
+}
+
+.App-UserItem-login{
+  color: #BABBC2;
+  font-size: 1rem;
+  text-align: start;
+  margin-left: 1rem;
+}
+
+.App-UserItem-bio{
+  color: #BABBC2;
+  font-size: 0.9rem;
+  text-align: start;
+  margin-top: 1.5625rem;
+}
