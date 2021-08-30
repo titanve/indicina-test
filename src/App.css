@@ -339,3 +339,9 @@
   text-align: start;
   margin-top: 1.5625rem;
 }
+
+.App-Results-results-data-results {
+  text-align: start;
+  font-size: 1.5rem;
+  font-weight: bold;
+}

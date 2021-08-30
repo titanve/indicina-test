@@ -197,19 +197,31 @@ function Results() {
               className={reposClass}
             >
               <p>Repositories</p>
-              <p className="App-Results-data-count">{repositoryCount}</p>
+              <p className="App-Results-data-count">
+                {repositoryCount.toString(10).length > 3
+                  ? `${repositoryCount
+                      .toString(10)
+                      .slice(0, repositoryCount.toString(10).length - 3)}k`
+                  : repositoryCount}
+              </p>
             </div>
             <div
               onClick={showRepos ? handleChangeScope : () => {}}
               className={usersClass}
             >
               <p>Users</p>
-              <p className="App-Results-data-count">{userCount}</p>
+              <p className="App-Results-data-count">
+                {userCount.toString(10).length > 3
+                  ? `${userCount
+                      .toString(10)
+                      .slice(0, userCount.toString(10).length - 3)}k`
+                  : userCount}
+              </p>
             </div>
           </div>
           <div className="App-Results-results-data">
-            <div>
-              {showRepos ? repositoryCount : userCount} repository results
+            <div className="App-Results-results-data-results">
+              {showRepos ? repositoryCount.toLocaleString() : userCount.toLocaleString()} repository results
             </div>
             {showRepos
               ? repos.map((repo, i) => {
