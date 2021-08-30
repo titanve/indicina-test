@@ -148,6 +148,7 @@ function Results() {
               />
             </div>
             <input
+              data-testid="input-results"
               className="App-Search-input"
               type="text"
               placeholder="Search"
@@ -163,6 +164,7 @@ function Results() {
             />
             <p className="App-User-name">{currentUser.name}</p>
             <div
+              data-testid="user-chevron"
               className="App-Search-Chevron"
               onClick={handleShowMenu}
               ref={setReferenceElement}
@@ -179,7 +181,11 @@ function Results() {
                 style={styles.popper}
                 {...attributes.popper}
               >
-                <p className="App-User-logout" onClick={handleLogout}>
+                <p
+                  data-testid="logout-pane"
+                  className="App-User-logout"
+                  onClick={handleLogout}
+                >
                   Logout
                 </p>
                 <div
@@ -226,8 +232,7 @@ function Results() {
                 showRepos
                   ? repositoryCount.toLocaleString()
                   : userCount.toLocaleString()
-              }
-              repository results`}
+              } ${showRepos ? "repository results" : "users"}`}
             </div>
             <div>{items}</div>
           </div>
