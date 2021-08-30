@@ -1,5 +1,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event'
+import {createMemoryHistory} from 'history'
+import {Router} from 'react-router-dom'
+
+import '@testing-library/jest-dom'
+
 import {App} from './App';
 
 test('renders Login to Github button', () => {
@@ -7,3 +13,4 @@ test('renders Login to Github button', () => {
   const buttonElement = screen.getByText(/login to github/i);
   expect(buttonElement).toBeInTheDocument();
 });
+
