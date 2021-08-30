@@ -18,8 +18,12 @@ import {
   currentUserAtom,
   showMenuAtom,
   usersResultsAtom,
+  reposResultsAtom,
+  searchResultsAtom,
 } from "../jotai_state/main_state";
-import { GH_GraphQL } from "./utils/constants";
+import { useFetchUsers, useFetchRepos } from "./hooks/hooksMain";
+import { RepoItem } from "./RepoItem";
+import { UserItem } from "./UserItem";
 
 function Results() {
   let history = useHistory();
@@ -46,41 +50,46 @@ function Results() {
       },
     ],
   });
-  const [access_token, setAccess_token] = useAtom(accessTokenAtom);
+  const [, setAccess_token] = useAtom(accessTokenAtom);
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
-  const [, setUsersResults] = useAtom(usersResultsAtom);
+  const [, setUserResults] = useAtom(usersResultsAtom);
+  const [, setReposResults] = useAtom(reposResultsAtom);
+  const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
+  const [{ fetchGHUser, users }] = useFetchUsers();
+  const [{ fetchGHRepos, repos }] = useFetchRepos();
+  const [showRepos, setShowRepos] = React.useState(true);
+  const [reposClass, setReposClass] = React.useState("App-Results-active-data");
+  const [usersClass, setUsersClass] = React.useState(
+    "App-Results-inactive-data"
+  );
 
   const searchOnGh = () => {
-    if (search != null && search.length > 0) {
-      fetchGHUser(search);
+    if (searchResults != null && searchResults.length > 0) {
+      fetchGHUser(searchResults);
+      fetchGHRepos(searchResults);
     } else {
-      setSearch("");
+      setSearchResults("");
     }
   };
 
-  const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
+  React.useEffect(() => {
+    console.log("users", users);
+    console.log("repos", repos);
+    if (users != null && repos != null && search === "") {
+      setUserResults(users);
+      setReposResults(repos);
+      history.push("/results");
+    } else {
+      setSearchResults(search);
+      setSearch("");
+    }
+  }, [users, repos, setUserResults, history]);
 
-  const fetchGHUser = async (query: string) => {
-    const response = await fetch(GH_GraphQL, {
-      headers: {
-        Authorization: `Bearer ${access_token}`,
-        "content-type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify({
-        query: `query { 
-        user(login: "${query}") {
-          bio,
-          avatarUrl
-        }}`,
-      }),
-    });
-    const { data } = await response.json();
-    console.log("data", data);
-    history.push("/results");
-  };
+  const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [
+    searchResults,
+  ]);
 
   React.useEffect(() => {
     delayedQuery();
@@ -90,7 +99,7 @@ function Results() {
   }, [delayedQuery]);
 
   const handleSearch = (event: any) => {
-    setSearch(event.target.value);
+    setSearchResults(event.target.value);
   };
 
   const handleShowMenu = () => {
@@ -101,6 +110,17 @@ function Results() {
     setAccess_token("");
     setShowMenu(false);
     history.push("/");
+  };
+
+  const handleChangeScope = () => {
+    if (showRepos) {
+      setReposClass("App-Results-inactive-data");
+      setUsersClass("App-Results-active-data");
+    } else {
+      setReposClass("App-Results-active-data");
+      setUsersClass("App-Results-inactive-data");
+    }
+    setShowRepos(!showRepos);
   };
 
   return (
@@ -122,7 +142,7 @@ function Results() {
               className="App-Search-input"
               type="text"
               placeholder="Search"
-              value={search}
+              value={searchResults}
               onChange={handleSearch}
             />
           </div>
@@ -164,67 +184,30 @@ function Results() {
         </nav>
         <div className="App-Results-results-arrange">
           <div className="App-Results-results-count">
-            <div className="App-Results-active-data">Repositories</div>
-            <div className="">Users</div>
+            <div
+              onClick={!showRepos ? handleChangeScope : () => {}}
+              className={reposClass}
+            >
+              <p>Repositories</p>
+              <p className="App-Results-data-count">Count</p>
+            </div>
+            <div
+              onClick={showRepos ? handleChangeScope : () => {}}
+              className={usersClass}
+            >
+              <p>Users</p>
+              <p className="App-Results-data-count">Count</p>
+            </div>
           </div>
           <div className="App-Results-results-data">
             <div>2,985 repository results</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
-            <div className="App-Results-detail">Telegram</div>
-            <div className="App-Results-detail">react-next-paging</div>
+            {showRepos
+              ? repos.map((repo, i) => {
+                  return <RepoItem key={i} repo={repo} />;
+                })
+              : users.map((user, j) => {
+                  return <UserItem key={j} user={user} />;
+                })}
           </div>
         </div>
       </main>

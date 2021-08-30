@@ -245,7 +245,7 @@
   align-items: flex-start;
   margin-left: 14.375rem;
   width: 17.5rem;
-  height: 8.75rem;
+  height: 6.125rem;
   font-size: 12px;
   padding: 1.875rem;
 }
@@ -255,10 +255,61 @@
 }
 
 .App-Results-detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   background-color: #fff;
   margin-top: 1.25rem;
+  padding: 1.5625rem;
 }
 
 .App-Results-active-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   background-color: #F7F7F8;
+  width: 13.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  height: 2.5rem;
+}
+
+.App-Results-inactive-data {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 13.75rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  height: 2.5rem;
+}
+
+.App-Results-data-count {
+  background-color: #DCDCDF;
+  height: 1.25rem;
+  width: 2.625rem;
+  border-radius: 0.625rem;
+  text-align: center;
+  line-height: 1.25rem;
+}
+
+.App-RepoItem-header {
+  font-weight: bold;
+  font-size: 1rem;
+  text-align: start;
+}
+
+.App-RepoItem-description {
+  color: #BABBC2;
+  font-size: 1rem;
+  text-align: start;
+  margin-top: 1.25rem;
+}
+
+.App-RepoItem-details {
+  color: #BABBC2;
+  font-size: 0.9rem;
+  text-align: start;
+  margin-top: 1.5625rem;
 }

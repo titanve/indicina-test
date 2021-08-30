@@ -2,6 +2,7 @@ import { atom } from "jotai";
 
 const accessTokenAtom = atom("");
 const searchAtom = atom("");
+const searchResultsAtom = atom("");
 const currentUserAtom = atom({ login: "", avatarUrl: "", name: "" });
 const showMenuAtom = atom(false);
 const usersResultsAtom = atom([]);
@@ -14,4 +15,5 @@ export {
   showMenuAtom,
   usersResultsAtom,
   reposResultsAtom,
+  searchResultsAtom,
 };

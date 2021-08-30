@@ -37,6 +37,7 @@ function Login() {
       });
       const { data } = await response.json();
       if (response.ok) {
+        console.log("data?.access_token", data?.access_token)
         setAccess_token(data?.access_token);
       }
     };
