@@ -17,8 +17,6 @@ import {
   searchAtom,
   currentUserAtom,
   showMenuAtom,
-  usersResultsAtom,
-  reposResultsAtom,
 } from "../jotai_state/main_state";
 import { useFetchUsers, useFetchRepos } from "./hooks/hooksMain";
 
@@ -51,8 +49,6 @@ function Search() {
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
-  const [users] = useAtom(usersResultsAtom);
-  const [repos] = useAtom(reposResultsAtom);
   const [{ fetchGHUser }] = useFetchUsers();
   const [{ fetchGHRepos }] = useFetchRepos();
 
@@ -60,18 +56,11 @@ function Search() {
     if (search != null && search.length > 0) {
       fetchGHUser(search);
       fetchGHRepos(search);
+      history.push("/results");
     } else {
       setSearch("");
     }
   };
-
-  React.useEffect(() => {
-    console.log("users", users);
-    console.log("repos", repos);
-    if (users != null && repos != null && search != null && search.length > 0) {
-      history.push("/results");
-    }
-  }, [users, repos, history, search]);
 
   const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
 

@@ -61,7 +61,6 @@ const useFetchUsers = () => {
       }),
     });
     const data = await response.json();
-    console.log("data Users", data.data);
     setUsers([...data.data.search?.edges]);
     setPageInfoUsers(data.data.search?.pageInfo);
     setUserCount(data.data.search?.userCount);
@@ -131,7 +130,6 @@ const useFetchRepos = () => {
       }),
     });
     const data = await response.json();
-    console.log("data.data.search?.edges", data.data.search?.edges);
     setRepos([...data.data.search?.edges]);
     setPageInfoRepos(data.data.search?.pageInfo);
     setRepositoryCount(data.data.search?.repositoryCount);

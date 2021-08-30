@@ -20,12 +20,10 @@ function Login() {
   const [, setCurrentUser] = useAtom(currentUserAtom);
 
   const onSuccess = (response: AuthResponse) => {
-    console.log("response", response);
     setCode(response?.code);
   };
 
   const onFailure = (response: string) => {
-    console.log("response", response);
     console.error(response);
   };
 
@@ -37,7 +35,6 @@ function Login() {
       });
       const { data } = await response.json();
       if (response.ok) {
-        console.log("data?.access_token", data?.access_token)
         setAccess_token(data?.access_token);
       }
     };
@@ -57,7 +54,7 @@ function Login() {
           },
           method: "POST",
           body: JSON.stringify({
-            query: 'query { viewer { login, name, avatarUrl }}',
+            query: "query { viewer { login, name, avatarUrl }}",
           }),
         });
         const { data } = await response.json();
@@ -70,7 +67,7 @@ function Login() {
       };
       fetchGH();
     }
-  }, [access_token]);
+  }, [access_token, setCurrentUser, history]);
 
   return (
     <div className="App">

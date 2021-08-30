@@ -83,8 +83,6 @@ function Results() {
   };
 
   React.useEffect(() => {
-    console.log("users useEffect", users);
-    console.log("repos useEffect", repos);
     if (users != null && repos != null && search === "") {
       // setUserResults(users);
       // setReposResults(repos);
@@ -135,7 +133,6 @@ function Results() {
       ? repos.map((repo: Repo) => <RepoItem key={repo.cursor} repo={repo} />)
       : users.map((user: User) => <UserItem key={user.cursor} user={user} />);
     setItems([...newItems]);
-    console.log("Ini repos", repos);
   }, [repos, users, showRepos]);
 
   return (

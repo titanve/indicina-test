@@ -23,6 +23,8 @@ const Pagination: React.FC<{ showRepos: boolean; searchResults: string }> = (
   const [pageInfoUsers] = useAtom(pageInfoUsersAtom);
   const [{ fetchGHUser }] = useFetchUsers();
   const [{ fetchGHRepos }] = useFetchRepos();
+  const [pageRepos, setPageRepos] = React.useState(1);
+  const [pageUsers, setPageUsers] = React.useState(1);
 
   const shouldUsePagination = () => {
     return repositoryCount > 10 || userCount > 10;
@@ -30,34 +32,66 @@ const Pagination: React.FC<{ showRepos: boolean; searchResults: string }> = (
 
   const goToNextPage = () => {
     if (props.showRepos) {
-      console.log("pageInfoRepos", pageInfoRepos);
-      fetchGHRepos(props.searchResults, "", pageInfoRepos.endCursor);
+      if (pageInfoRepos.hasNextPage) {
+        fetchGHRepos(props.searchResults, "", pageInfoRepos.endCursor);
+        setPageRepos((p) => p + 1);
+      }
     } else {
-      console.log("pageInfoUsers", pageInfoUsers);
-      fetchGHUser(props.searchResults, "", pageInfoUsers.endCursor);
+      if (pageInfoUsers.hasNextPage) {
+        fetchGHUser(props.searchResults, "", pageInfoUsers.endCursor);
+        setPageUsers((p) => p + 1);
+      }
     }
   };
 
   const goToPrevPage = () => {
     if (props.showRepos) {
-      console.log("pageInfoRepos", pageInfoRepos);
-      fetchGHRepos(props.searchResults, pageInfoRepos.startCursor, "");
+      if (pageRepos > 1) {
+        fetchGHRepos(props.searchResults, pageInfoRepos.startCursor, "");
+        setPageRepos((p) => p - 1);
+      }
     } else {
-      console.log("pageInfoUsers", pageInfoUsers);
-      fetchGHUser(props.searchResults, pageInfoUsers.startCursor, "");
+      if (pageUsers > 1) {
+        fetchGHUser(props.searchResults, pageInfoUsers.startCursor, "");
+        setPageUsers((p) => p - 1);
+      }
+    }
+  };
+
+  const currentNextClass = (): string => {
+    if (props.showRepos) {
+      return pageInfoRepos.hasNextPage
+        ? `App-Pagination-chevron-active`
+        : `App-Pagination-chevron-inactive`;
+    } else {
+      return pageInfoUsers.hasNextPage
+        ? `App-Pagination-chevron-active`
+        : `App-Pagination-chevron-inactive`;
+    }
+  };
+
+  const currentPrevClass = (): string => {
+    if (props.showRepos) {
+      return pageRepos < 2
+        ? `App-Pagination-chevron-inactive`
+        : `App-Pagination-chevron-active`;
+    } else {
+      return pageUsers < 2
+        ? `App-Pagination-chevron-inactive`
+        : `App-Pagination-chevron-active`;
     }
   };
 
   return shouldUsePagination() ? (
     <div className="App-Pagination">
-      <div className="App-Pagination-chevron-inactive">
+      <div className={currentPrevClass()}>
         <FontAwesomeIcon
           onClick={goToPrevPage}
           icon={faChevronLeft}
           size="xs"
         />
       </div>
-      <div className="App-Pagination-chevron-active">
+      <div className={currentNextClass()}>
         <FontAwesomeIcon
           onClick={goToNextPage}
           icon={faChevronRight}
