@@ -59,10 +59,10 @@ function Results() {
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
-  const [, setUserResults] = useAtom(usersResultsAtom);
+  const [users] = useAtom(usersResultsAtom);
   const [repos] = useAtom(reposResultsAtom);
   const [searchResults, setSearchResults] = useAtom(searchResultsAtom);
-  const [{ fetchGHUser, users }] = useFetchUsers();
+  const [{ fetchGHUser }] = useFetchUsers();
   const [{ fetchGHRepos }] = useFetchRepos();
   const [showRepos, setShowRepos] = React.useState(true);
   const [reposClass, setReposClass] = React.useState("App-Results-active-data");
@@ -131,20 +131,12 @@ function Results() {
   };
 
   React.useEffect(() => {
-    const newItems: JSX.Element[] = repos.map((repo: Repo) => (
-      <RepoItem key={repo.cursor} repo={repo} />
-    ));
+    const newItems: JSX.Element[] = showRepos
+      ? repos.map((repo: Repo) => <RepoItem key={repo.cursor} repo={repo} />)
+      : users.map((user: User) => <UserItem key={user.cursor} user={user} />);
     setItems([...newItems]);
     console.log("Ini repos", repos);
-  }, [repos]);
-
-  React.useEffect(() => {
-    const newItems: JSX.Element[] = users.map((user: User) => (
-      <UserItem key={user.cursor} user={user} />
-    ));
-    setItems(newItems);
-    console.log("Ini users", users);
-  }, [users]);
+  }, [repos, users, showRepos]);
 
   return (
     <div className="App">

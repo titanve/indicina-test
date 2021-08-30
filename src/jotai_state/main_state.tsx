@@ -1,13 +1,14 @@
 import React from "react";
 import { atom } from "jotai";
 import type { Repo } from "../components/RepoItem";
+import type { User } from "../components/UserItem";
 
 const accessTokenAtom = atom("");
 const searchAtom = atom("");
 const searchResultsAtom = atom("");
 const currentUserAtom = atom({ login: "", avatarUrl: "", name: "" });
 const showMenuAtom = atom(false);
-const usersResultsAtom = atom([]);
+const usersResultsAtom = atom<User[]>([]);
 const reposResultsAtom = atom<Repo[]>([]);
 const repositoryCountAtom = atom(0);
 const userCountAtom = atom(0);

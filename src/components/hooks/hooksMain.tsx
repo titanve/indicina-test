@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import {
   accessTokenAtom,
   reposResultsAtom,
+  usersResultsAtom,
   repositoryCountAtom,
   userCountAtom,
   pageInfoReposAtom,
@@ -11,8 +12,8 @@ import {
 import { GH_GraphQL } from "../utils/constants";
 
 const useFetchUsers = () => {
-  const [users, setUsers] = React.useState([]);
   const [access_token] = useAtom(accessTokenAtom);
+  const [, setUsers] = useAtom(usersResultsAtom);
   const [, setUserCount] = useAtom(userCountAtom);
   const [, setPageInfoUsers] = useAtom(pageInfoUsersAtom);
 
@@ -61,12 +62,12 @@ const useFetchUsers = () => {
     });
     const data = await response.json();
     console.log("data Users", data.data);
-    setUsers(data.data.search?.edges);
+    setUsers([...data.data.search?.edges]);
     setPageInfoUsers(data.data.search?.pageInfo);
     setUserCount(data.data.search?.userCount);
   };
 
-  return [{ fetchGHUser, users }];
+  return [{ fetchGHUser }];
 };
 
 const useFetchRepos = () => {

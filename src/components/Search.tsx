@@ -51,9 +51,9 @@ function Search() {
   const [search, setSearch] = useAtom(searchAtom);
   const [currentUser] = useAtom(currentUserAtom);
   const [showMenu, setShowMenu] = useAtom(showMenuAtom);
-  const [, setUserResults] = useAtom(usersResultsAtom);
-  const [repos, setReposResults] = useAtom(reposResultsAtom);
-  const [{ fetchGHUser, users }] = useFetchUsers();
+  const [users] = useAtom(usersResultsAtom);
+  const [repos] = useAtom(reposResultsAtom);
+  const [{ fetchGHUser }] = useFetchUsers();
   const [{ fetchGHRepos }] = useFetchRepos();
 
   const searchOnGh = () => {
@@ -69,11 +69,9 @@ function Search() {
     console.log("users", users);
     console.log("repos", repos);
     if (users != null && repos != null && search != null && search.length > 0) {
-      // setUserResults(users);
-      // setReposResults(repos);
       history.push("/results");
     }
-  }, [users, repos, setUserResults, history, setReposResults]);
+  }, [users, repos, history, search]);
 
   const delayedQuery = React.useCallback(debounce(searchOnGh, 500), [search]);
 
