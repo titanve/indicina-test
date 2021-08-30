@@ -234,7 +234,7 @@ function Results() {
                 })}
           </div>
         </div>
-        <Pagination />
+        <Pagination showRepos={showRepos} searchResults={searchResults} />
       </main>
     </div>
   );

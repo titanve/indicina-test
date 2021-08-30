@@ -9,8 +9,16 @@ const usersResultsAtom = atom([]);
 const reposResultsAtom = atom([]);
 const repositoryCountAtom = atom(0);
 const userCountAtom = atom(0);
-const pageInfoReposAtom = atom({ hasNextPage: false, endCursor: "" });
-const pageInfoUsersAtom = atom({ hasNextPage: false, endCursor: "" });
+const pageInfoReposAtom = atom({
+  hasNextPage: false,
+  startCursor: "",
+  endCursor: "",
+});
+const pageInfoUsersAtom = atom({
+  hasNextPage: false,
+  startCursor: "",
+  endCursor: "",
+});
 
 export {
   accessTokenAtom,

@@ -356,11 +356,14 @@
 }
 
 .App-Pagination-chevron-active {
+  cursor: pointer;
   width: 2.5rem;
   height: 2.5rem;
   background-color: #000;
   color: #fff;
   border-radius: 10px;
+  line-height: 2.5rem;
+  margin-left: 1.25rem;
 }
 
 .App-Pagination-chevron-inactive {
@@ -369,4 +372,5 @@
   background-color: #F3F3F3;
   color: #B1B7C2;
   border-radius: 10px;
+  line-height: 2.5rem;
 }
